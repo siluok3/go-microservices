@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"log"
-	"microservices/handlers"
+	"microservices/product-api/handlers"
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,12 +13,10 @@ import (
 func main() {
 	l := log.New(os.Stdout, "product-api", log.LstdFlags)
 
-	hh := handlers.NewHello(l)
-	gh := handlers.NewGoodbye(l)
+	ph := handlers.NewProducts(l)
 
 	sm := http.NewServeMux()
-	sm.Handle("/", hh)
-	sm.Handle("/bye", gh)
+	sm.Handle("/products", ph)
 
 	s := &http.Server{
 		Addr:         ":9090",
@@ -29,6 +27,8 @@ func main() {
 	}
 
 	go func() {
+		l.Println("Starting server on port 9090")
+
 		err := s.ListenAndServe()
 		if err != nil {
 			l.Fatal(err)
