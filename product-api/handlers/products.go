@@ -34,6 +34,18 @@ type productsResponse struct {
 	Body []data.Product
 }
 
+// swagger:parameters deleteProduct
+type productIDParameterWrapper struct {
+	// The id of the product to delete from the db
+	//in: path
+	//required: true
+	ID int `json:"id"`
+}
+
+// swagger:response noContent
+type productsNoContent struct {
+}
+
 // Products handler definition
 type Products struct {
 	l *log.Logger
@@ -81,6 +93,31 @@ func (p Products) UpdateProduct(rw http.ResponseWriter, r *http.Request) {
 	prod := r.Context().Value(KeyProduct{}).(data.Product)
 
 	err = data.UpdateProduct(id, &prod)
+	if err == data.ErrProductNotFound {
+		http.Error(rw, "Product not found", http.StatusNotFound)
+		return
+	}
+
+	if err != nil {
+		http.Error(rw, "Product not found", http.StatusInternalServerError)
+		return
+	}
+}
+
+// swagger:route DELETE /products/{id} products deleteProducts
+// Deletes the product with the given id
+// responses:
+// 201: noContent
+
+// DeleteProduct deletes a product
+func (p *Products) DeleteProduct(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, _ := strconv.Atoi(vars["id"])
+
+	p.l.Println("Handle DELETE Product with id: ", id)
+
+	err := data.DeleteProduct(id)
+
 	if err == data.ErrProductNotFound {
 		http.Error(rw, "Product not found", http.StatusNotFound)
 		return
