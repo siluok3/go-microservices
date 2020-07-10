@@ -40,14 +40,14 @@ type noContentResponseWrapper struct {
 
 // swagger:parameters updateProduct createProduct
 type productParamsWrapper struct {
-	// Product data structure to Update or Create.
+	// Product data structure tos Update or Create.
 	// Note: the id field is ignored by update and create operations
 	// in: body
 	// required: true
 	Body data.Product
 }
 
-// swagger:parameters updateProduct
+// swagger:parameters listSingleProduct deleteProduct
 type productIDParamsWrapper struct {
 	// The id of the product for which the operation relates
 	// in: path
@@ -55,14 +55,7 @@ type productIDParamsWrapper struct {
 	ID int `json:"id"`
 }
 
-// swagger:parameters deleteProduct
-type productIDParameterWrapper struct {
-	// The id of the product to delete from the db
-	//in: path
-	//required: true
-	ID int `json:"id"`
-}
-
+// No content found for the prody=uct
 // swagger:response noContent
 type productsNoContent struct {
 }

@@ -14,6 +14,8 @@ import (
 func (p *Products) GetProducts(rw http.ResponseWriter, r *http.Request) {
 	p.l.Println("Handle GET Products")
 
+	rw.Header().Add("Content-Type", "application/json")
+
 	products := data.GetProducts()
 	err := data.ToJSON(products, rw)
 	if err != nil {
@@ -21,7 +23,7 @@ func (p *Products) GetProducts(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// swagger:route GET /products/{id} products listSingle
+// swagger:route GET /products/{id} products listSingleProduct
 // Return a list of products from the database
 // responses:
 // 200: productResponse

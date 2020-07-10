@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-// swagger:route DELETE /products/{id} products deleteProducts
+// swagger:route DELETE /products/{id} products deleteProduct
 // Deletes the product with the given id
 // responses:
 // 201: noContent

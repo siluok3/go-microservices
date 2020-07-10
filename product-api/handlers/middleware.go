@@ -8,6 +8,7 @@ import (
 
 // MiddlewareValidateProduct validates the product in the request and calls next if ok
 func (p *Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
+	p.l.Println("[DEBUG] Accessing Middleware Validation")
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		prod := &data.Product{}
 
